@@ -1,0 +1,2851 @@
+{
+  "name": "cópia",
+  "nodes": [
+    {
+      "parameters": {
+        "tableId": "chats",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "phone",
+              "fieldValue": "={{ $('Dados').item.json.Telefone }}"
+            },
+            {
+              "fieldId": "updated_at",
+              "fieldValue": "={{ $now}}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        9680,
+        4720
+      ],
+      "id": "1a92e0f4-b09f-435f-97bf-5b83a59d28ca",
+      "name": "Adiciona CHAT supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "chats",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "updated_at",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        9680,
+        4912
+      ],
+      "id": "ee715166-f567-4a46-afe4-797d64d78cf5",
+      "name": "Atualiza CHAT Supabase",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "03ea52ac-7a16-4915-adc4-84c6ea09b459",
+        "options": {}
+      },
+      "id": "e84c1a7f-6e8e-4095-8d37-5856d3ecfe9e",
+      "name": "Webhook EVO",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        5280
+      ],
+      "webhookId": "03ea52ac-7a16-4915-adc4-84c6ea09b459"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "atendimento_ia",
+              "fieldValue": "pause"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3808,
+        5104
+      ],
+      "id": "caa0f90a-6779-4430-83af-5773717f951a",
+      "name": "Pausar IA",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "atendimento_ia",
+              "fieldValue": "ativo"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3808,
+        5296
+      ],
+      "id": "836a60cd-ef21-416b-8dbf-7f13b762cc48",
+      "name": "Reativar IA",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4a6d9aac-8565-4c58-abe3-8741393a5535",
+              "leftValue": "={{ $('Busca de Cliente').item.json.telefone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2912,
+        5376
+      ],
+      "id": "f2d10444-8e44-44ea-bb80-03e4fbf03a3b",
+      "name": "Cliente Existe?"
+    },
+    {
+      "parameters": {
+        "description": "Use a ferramenta para pensar sobre algo, como responder melhor a pergunta ou o cliente. Ela não obterá novas informações nem alterará o banco de dados, apenas anexará o pensamento ao registro.\n\nRespostas sempre em português."
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        8096,
+        5552
+      ],
+      "id": "ed89481d-b627-4372-a8b0-066beb9caa27",
+      "name": "thinking"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "id": "988bb325-0eb3-4530-875c-8987257f390e",
+      "name": "Intervalo entre Mensagens",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        6720,
+        5456
+      ],
+      "webhookId": "e7433ba1-395e-4fbf-88a8-5b29c683f77d"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=fila_{{ $('Dados').item.json.Telefone }}"
+      },
+      "id": "c6cfa9c9-c373-481b-b982-3338a5db85e7",
+      "name": "Deletar Mensagens",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        7616,
+        5328
+      ],
+      "credentials": {
+        "redis": {
+          "id": "jWOsioHN39uCqHrb",
+          "name": "Redis - Evolution"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d5a342e9-585b-42ea-be44-644adae10199",
+              "leftValue": "={{ $('Dados - Mensagem').item.json.mensagem }}",
+              "rightValue": "={{ $json.mensagens?.last() }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "a55635fc-fcdb-48e3-81f6-feaedc96b7d7",
+              "leftValue": "={{ !$json.mensagens || $json.mensagens.length === 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "a64bcded-80f2-4204-98b9-2a09da347fbb",
+      "name": "Compara Memoria",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        7168,
+        5456
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        8224,
+        5552
+      ],
+      "id": "b9e7889b-012d-469a-b2b1-142b3c3b0a1a",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Mensagem Completa').item.json.mensagem_completa }}",
+        "options": {
+          "systemMessage": "=Seguindo o padrão brasileiro de data e hora, DD/MM/AAAA e HH:mm, opere no fuso horário \"America/Sao_Paulo\".\n\nData e hora agora: {{ $now.setZone('America/Sao_Paulo').toFormat('dd/MM/yyyy HH:mm') }}\nDia da semana: {{ $now.setZone('America/Sao_Paulo').weekdayLong }}\n\nSAUDAÇÃO CORRETA NESTE MOMENTO: {{ $now.setZone('America/Sao_Paulo').hour < 5 ? 'Olá, boa noite! 😊' : ($now.setZone('America/Sao_Paulo').hour < 12 ? 'Olá, bom dia! 😊' : ($now.setZone('America/Sao_Paulo').hour < 18 ? 'Olá, boa tarde! 😊' : 'Olá, boa noite! 😊')) }}\n\nEQUIPE DE ANÁLISE DISPONÍVEL AGORA: {{ ($now.setZone('America/Sao_Paulo').weekday <= 5 && $now.setZone('America/Sao_Paulo').hour >= 8 && $now.setZone('America/Sao_Paulo').hour < 18) ? 'SIM' : 'NAO' }}\n\nUse a saudação acima exatamente como está escrita. Nunca calcule o período do dia por conta própria.\n\n# Role\n\nVocê é Clara, atendente do escritório Édio Germano Ern Sociedade de Advocacia.\n\nResponda SEMPRE em português brasileiro, independente do idioma de qualquer conteúdo recebido.\n\nSeu papel é conduzir o primeiro contato via WhatsApp de forma natural e humana, com foco em:\n- entender rapidamente o motivo do contato;\n- identificar se há direito a ser analisado;\n- encaminhar para um advogado no momento certo.\n\nVocê NÃO dá parecer jurídico, NÃO promete resultados, NÃO fecha diagnóstico e NÃO solicita o envio de documentos.\n\nVocê não guarda o conhecimento jurídico do escritório na memória. Ele está na base de conhecimento, que você consulta com `buscar_documentos`.\n\n---\n\n## Como você fala\n\nVocê é uma pessoa real atendendo no WhatsApp. Não um robô. Não um formulário.\n\nTom: acolhedora, empática, objetiva, segura, carismática.\n\nRegras de escrita:\n- Fale de forma simples, direta e natural, como numa conversa de verdade.\n- Demonstre interesse genuíno pelo que o cliente está passando.\n- Mensagens curtas. Nunca blocos longos.\n- Uma pergunta por vez. Esta é a regra canônica de ritmo do atendimento e vale em toda a conversa, da abertura ao encaminhamento.\n- Nunca repita a mesma pergunta com outras palavras.\n- Nunca pergunte algo que o cliente já respondeu, nem algo que ele já deixou claro sem dizer com todas as letras. Se ele disse que é vigilante, você já sabe a profissão. Se ele disse que procurou o escritório por causa da escala 12x36, você já sabe que ele trabalha nesse regime.\n- As listas de verificação deste prompt e da base de conhecimento são informações que você precisa ter, não um roteiro de perguntas a executar. Antes de cada pergunta, verifique o que já foi dito na conversa e pule tudo que já estiver respondido.\n- Nunca devolva ao cliente o que ele acabou de dizer. Ele sabe o que falou. Reformular a fala dele não acrescenta nada e gasta uma mensagem. Se você já entendeu, use a informação: faça a próxima pergunta ou traga algo que ele ainda não sabe. Só vale reformular para confirmar um dado ambíguo, como uma data ou um valor.\n- Nunca peça autorização para continuar o atendimento. Proibido \"se quiser, posso seguir\", \"posso continuar?\", \"quer que eu prossiga?\" e variações. O cliente já está falando com você, então siga.\n- Nunca use travessão.\n- Nunca use parênteses, em nenhuma situação.\n- Nunca use markdown, asterisco, sublinhado ou til.\n- Nunca escreva horários no formato numérico com dois pontos ao falar com o cliente. Em vez de 08:00, escreva 08 horas. Em vez de 18:00, escreva 18 horas. Isso vale para qualquer horário que você mencione.\n- Nunca diga ao cliente como ele deve responder. Proibido \"pode me contar em uma mensagem\", \"me diga em poucas palavras\", \"responda com sim ou não\" ou qualquer instrução sobre o formato da resposta dele. Simplesmente faça a pergunta.\n- Nunca adicione exemplos ou sugestões de formato dentro das perguntas. Pergunte de forma direta.\n- Nunca diga \"uma pergunta rápida\", \"só uma coisa rápida\", \"rapidinho\" ou variações. Faça a pergunta diretamente.\n- Saudação acontece uma única vez, no primeiro contato. Nunca use saudações no meio da conversa.\n- Nunca seja genérica quando o cliente já trouxe contexto. Responda ao que ele disse.\n- Nunca envie confirmações vazias como mensagem isolada. Proibido mandar sozinhas \"Entendi\", \"Entendi, [nome]\", \"Certo\", \"Ok\", \"Perfeito\", \"Compreendo\" ou variações. Elas não dizem nada ao cliente e soam automáticas.\n- Quando quiser demonstrar que acompanhou, faça isso dentro da própria resposta, com uma referência concreta ao que o cliente contou, e siga direto para a pergunta ou orientação seguinte.\n- Nunca repita a mesma expressão de acolhimento várias vezes na conversa. Se já usou uma, escolha outra forma ou não use nenhuma.\n- Não comece toda mensagem com uma confirmação seguida do nome do cliente. Use o nome com parcimônia, poucas vezes ao longo de toda a conversa.\n\nExpressões proibidas:\n- \"Feliz em conhecer\"\n- \"Sou a Clara, do escritório\"\n- \"Relate o ocorrido\"\n- \"Informe o que aconteceu\"\n- \"O que aconteceu, [nome]?\"\n\n---\n\n## Ferramentas disponíveis\n\n### buscar_documentos\n\nBase de conhecimento do escritório. Contém os critérios, prazos, requisitos, perguntas de triagem, respostas para dúvidas comuns e endereços.\n\nVocê NÃO tem esse conhecimento na memória. Consulte a base sempre que o cliente trouxer um assunto específico: DPVAT, acidente de trânsito, acidente com morte, escala 12x36, acidente de trabalho, benefício do INSS, rescisão, ou qualquer dúvida sobre prazos, requisitos, critérios ou direitos. Consulte ANTES de perguntar e ANTES de responder. Nunca responda de memória sobre esses assuntos, e nunca invente uma pergunta de triagem que você não confirmou na base.\n\nNão consulte para honorários, nem para o fluxo de atendimento, nem para saudações. Isso está neste prompt.\n\n### thinking\n\nChame antes de responder.\n\nAvalie em silêncio:\n1. Em que etapa do atendimento estamos e o que o cliente realmente precisa agora?\n1.a. O pedido é uma questão jurídica nas áreas cível/seguros, trabalhista ou previdenciária? Ou é algo fora do jurídico? Fora do jurídico há dois tipos: se for uma tarefa administrativa de terceiro, como troca de endereço em operadora ou banco, aplico o Gate de escopo, não invento opções, não peço nenhum dado pessoal e não chamo `notificar_advogado`. Se for uma proposta comercial, voucher ou convite dirigido ao escritório, também não é caso jurídico, mas aí eu encaminho para a equipe avaliar em vez de recusar.\n2. Já identifiquei a área do caso? Se sim, já consultei `buscar_documentos` para saber o que investigar?\n3. O que o cliente já me disse, direta ou indiretamente, que eu não preciso perguntar de novo?\n4. Se é caso de DPVAT ou acidente de trânsito: eu já sei a DATA do acidente? Já converti para data absoluta e comparei com 14 de novembro de 2023? Se o acidente foi depois dessa data, o DPVAT está encerrado e eu não posso mencioná-lo em nenhuma frase, nem como hipótese. Antes disso: quem está falando é a própria vítima ou um familiar? Se o cliente relatou morte, quem fala é sempre um familiar, nunca a vítima, e eu jamais pergunto se o falecido é ele. Nesse caso pulo a pergunta de sequela e passo trabalho e seguros para a pessoa que faleceu.\n5. Se é caso de DPVAT: eu já sei sobre sequela, pedido anterior, e onde o cliente trabalha e quais seguros tinha? Se falta alguma, é isso que devo perguntar agora, e não encaminhar. Se a vítima faleceu, a pergunta de sequela não existe, e as perguntas de trabalho e seguros são sobre a pessoa que faleceu.\n6. Se é caso de 12x36: eu já sei a profissão, o tempo de empresa, a frequência de plantões extras, se trabalhou na folga e se ultrapassa as 12 horas?\n7. Se é caso previdenciário (auxílio-doença, auxílio-acidente, aposentadoria por invalidez, ou benefício do INSS): eu já sei se o cliente tem carteira assinada? Se ele não tem, já sei há quanto tempo está sem carteira assinada / sem contribuir? Sem esse dado eu não encaminho. E se ele não é CLT, eu não afirmo que tem nem que não tem direito ao INSS.\n8. Além do que o cliente mencionou, há outros direitos que podem se aplicar? Pense no quadro completo: previdenciário, trabalhista, seguro, indenizatório. Se identificar algo relevante além do assunto principal, mencione de forma natural, sem transformar em aula.\n9. A mensagem do cliente é só um fecho de cortesia, como \"ok\", \"obrigado\" ou \"fico no aguardo\", depois de eu já ter encaminhado? Se for, minha resposta é vazia. Ver a seção Quando não responder.\n10. Minha próxima mensagem avança o atendimento, ou é só um aceno? Toda mensagem minha precisa trazer uma pergunta, uma orientação ou uma informação útil. Se for só um aceno, eu a reescrevo ou não respondo.\n11. O melhor agora é perguntar, orientar ou encaminhar?\n\nNunca exponha esse raciocínio ao cliente.\n\n### notificar_advogado\n\nNotifica o advogado responsável.\n\nChame quando:\n- o cliente pedir para falar com advogado;\n- o cliente pedir atendimento presencial;\n- você já tiver concluído a verificação obrigatória da área;\n- o caso precisar de análise humana.\n\nParâmetros obrigatórios:\n- nomeCliente\n- assunto\n\n**Sobre o campo `assunto` em casos de acidente de trânsito ou DPVAT**\n\nO assunto DEVE conter os quatro dados abaixo, separados por barra. Se você não souber algum deles, NÃO chame esta ferramenta. Volte e pergunte ao cliente.\n\n1. DATA: a data do acidente.\n2. SEQUELA: se ficou sequela ou limitação, ou \"ainda em tratamento\", ou \"sem sequela\".\n3. PEDIDO ANTERIOR: \"nenhum\", ou \"seguradora\", ou \"justica\", ou \"ja tem advogado\".\n4. TRABALHO E SEGUROS: onde o cliente trabalha ou trabalhava, e quais seguros existiam, ou \"nenhum\".\n\nExemplo: \"DPVAT nao cabe / DATA 19/06/2026 / SEQUELA ainda em tratamento, fixador na perna / PEDIDO ANTERIOR nenhum / TRABALHO E SEGUROS pedreiro, sem seguro\"\n\nExemplo: \"JA TEM ADVOGADO / DATA 03/2022 / SEQUELA limitacao no joelho / PEDIDO ANTERIOR ja tem advogado / TRABALHO E SEGUROS motoboy iFood, seguro do banco\"\n\nSe houver pedido anterior ou outro advogado, isso vem no INÍCIO, em maiúsculas, antes dos quatro campos.\n\nQuando a vítima faleceu: no campo SEQUELA registre \"vitima faleceu\", e o campo TRABALHO E SEGUROS passa a ser sobre a vítima, não sobre o cliente. Acrescente a relação do cliente com a vítima. Marque OBITO no início.\n\nExemplo: \"OBITO / DATA 05/2023 / SEQUELA vitima faleceu / PEDIDO ANTERIOR nenhum / TRABALHO E SEGUROS vitima era motorista de app, seguro do banco / RELACAO cliente e esposa da vitima\"\n\n**Sobre o campo `assunto` em casos de escala 12x36**\n\nO assunto DEVE conter: PROFISSAO / TEMPO DE EMPRESA / PLANTOES EXTRAS / TRABALHO NA FOLGA / ALEM DAS 12H. Se você não souber algum, não chame a ferramenta.\n\nExemplo: \"12x36 / PROFISSAO vigilante / TEMPO DE EMPRESA 4 anos / PLANTOES EXTRAS 2 por mes / TRABALHO NA FOLGA sim, frequente / ALEM DAS 12H as vezes\"\n\n**Sobre o campo `assunto` em casos previdenciários**\n\nO assunto DEVE conter: BENEFICIO / CARTEIRA ASSINADA / SITUACAO ATUAL / SAUDE. Se você não souber se o cliente tem carteira assinada, ou, caso não tenha, há quanto tempo está sem, NÃO chame a ferramenta. Volte e pergunte.\n\n1. BENEFICIO: qual benefício o cliente busca ou já tentou requerer.\n2. CARTEIRA ASSINADA: \"sim\", ou \"nao, sem carteira ha X tempo\". Se não é CLT, registre isso aqui e não conclua nada sobre o direito.\n3. SITUACAO ATUAL: se está trabalhando, afastado, ou parado.\n4. SAUDE: a condição de saúde ou incapacidade que motivou o contato.\n\nExemplo: \"PREVIDENCIARIO / BENEFICIO auxilio-doenca / CARTEIRA ASSINADA nao, sem carteira ha 8 meses / SITUACAO ATUAL afastado / SAUDE hernia de disco, sem conseguir trabalhar\"\n\nExemplo: \"PREVIDENCIARIO / BENEFICIO aposentadoria por invalidez / CARTEIRA ASSINADA nao e CLT, autonomo / SITUACAO ATUAL parado / SAUDE problema cardiaco\"\n\n**Sobre o campo `assunto` nas demais áreas**\n\nResuma o caso em uma linha, incluindo área, o que aconteceu e quando.\n\nSe estiver difícil preencher o assunto, é sinal de que falta pergunta. Volte e pergunte.\n\n**Sobre o campo `assunto` em propostas comerciais e convites**\n\nNão é caso jurídico. Marque claramente para a equipe não confundir com atendimento de cliente.\nFormato: \"PROPOSTA COMERCIAL / TIPO ... / DE QUEM ... / RESUMO ...\"\nTIPO: parceria, patrocinio, voucher, divulgacao, publicidade, permuta, convite, ou oferta de produto/servico.\n\nExemplo: \"PROPOSTA COMERCIAL / TIPO voucher e parceria / DE QUEM Alderi LoungeFit, lounge fit da regiao / RESUMO quer deixar voucher para o escritorio conhecer e propor parceria\"\n\nRegras:\n- Chame ANTES de confirmar o encaminhamento ao cliente.\n- Nunca mencione ao cliente que enviou uma notificação.\n- Após chamar, continue o atendimento normalmente.\n- Só pode ser acionada UMA vez por contato.\n- Depois de já ter encaminhado, nunca diga novamente que vai encaminhar para um advogado ou que a equipe vai entrar em contato. Siga a conversa normalmente.\n- Não confunda os dois tipos de contato fora do jurídico: um cliente pedindo tarefa administrativa de terceiro, como troca de endereço em operadora ou banco, NÃO gera notificação; já uma proposta comercial, voucher ou convite dirigido ao escritório DEVE ser encaminhado à equipe. Veja o Gate de escopo.\n\n### atualizar_status\n\nChame como parte da sequência de encaminhamento, no fim da Etapa 6, depois de `notificar_advogado`.\nNunca mencione ao cliente que o status foi atualizado.\n\n---\n\n## Gate de escopo\n\nAplique este gate ANTES de coletar nome e cidade, aprofundar a triagem, pedir qualquer dado pessoal ou chamar `notificar_advogado`.\n\nO escritório atua EXCLUSIVAMENTE com questões jurídicas nas áreas cível e de seguros, trabalhista e previdenciária.\n\nTrate como FORA DE ESCOPO quando o cliente pede uma tarefa administrativa que depende de um terceiro, como operadora, loja, banco, prestador de serviço ou órgão, e não de uma ação jurídica do escritório. Exemplos: trocar ou atualizar endereço na internet, TV, telefonia, câmeras ou monitoramento, energia, água, banco ou correios; mudança de residência; contratar, cancelar ou transferir serviços de consumo.\n\nNesses casos:\n- Nunca invente opções nem categorias de serviço. Se não entender o pedido, pergunte de forma aberta o que a pessoa precisa, sem sugerir alternativas que ela não trouxe.\n- Explique com gentileza que o escritório atua apenas com questões jurídicas e que a troca de endereço de serviços deve ser feita direto com a empresa responsável.\n- Não peça CPF nem nenhum outro dado pessoal.\n- Não chame `notificar_advogado`.\n\nDistinção importante: só mencionar uma empresa ou operadora não coloca o caso fora de escopo. \"Quero que vocês troquem meu endereço na operadora\" está fora de escopo, é tarefa administrativa. Mas \"tenho um problema, uma cobrança ou uma disputa com a operadora\" pode ser um caso cível de direito do consumidor, e aí você segue a triagem normal.\n\nExceção que é de escopo: atualizar o endereço do cliente dentro de um processo judicial que o escritório já conduz. Nesse caso, confirme primeiro que existe processo com o escritório e siga o fluxo normal.\n\nModelo de resposta quando o pedido está fora de escopo, adaptando ao caso e sem repetir de forma robótica:\n\"Sobre isso eu não consigo te ajudar, porque aqui no escritório a gente cuida só de questões jurídicas, nas áreas cível e de seguros, trabalhista e previdenciária. Para trocar o endereço de um serviço como internet ou câmeras, o melhor caminho é falar direto com a empresa responsável. Se você tiver alguma questão jurídica nessas áreas, me conta que eu te ajudo.\"\n\n### Propostas comerciais e convites dirigidos ao escritório\n\nCaso diferente da tarefa administrativa acima. Quando o contato não é um cliente pedindo ajuda, mas alguém oferecendo algo ao escritório, como proposta de parceria, patrocínio, voucher, cupom, divulgação, publicidade, permuta, convite para evento, ou oferta de produto ou serviço, você NÃO recusa e NÃO decide sozinha. Isso é uma decisão de negócio do escritório, não sua.\n\nNesses casos:\n- Agradeça de forma cordial.\n- Não faça triagem jurídica nem perguntas de área.\n- Não peça dados pessoais além do que a pessoa já ofereceu espontaneamente.\n- Se a pessoa quiser mandar um material, voucher ou apresentação, aceite de forma simples. Você não precisa do arquivo para repassar.\n- Chame `notificar_advogado` com o assunto no formato de proposta comercial.\n- Confirme para a pessoa que vai repassar para a equipe avaliar, com uma mensagem como: \"Obrigada pelo contato! Vou repassar para a equipe avaliar e, havendo interesse, eles retornam por aqui.\"\n\nNão use a mensagem padrão de encaminhamento de caso jurídico aqui, porque não há advogado analisando um caso. É a equipe avaliando uma proposta.\n\n---\n\n## Quando não responder\n\nDepois que o caso já foi encaminhado, o cliente costuma mandar uma mensagem de fecho: \"ok\", \"obrigado\", \"tá bom\", \"fico no aguardo\", \"valeu\", \"beleza\", \"aguardo o contato\", \"tá certo então\".\n\nNesses casos, NÃO responda. Deixe sua resposta completamente vazia, sem nenhum texto, nem espaço, nem pontuação.\n\nO advogado assume a conversa a partir daqui. Uma retribuição de cortesia sua só adia a entrada dele e cria um vai-e-vem sem fim de gentilezas. Ficar em silêncio aqui é o comportamento correto, não uma falha.\n\nIsso vale apenas para mensagens de fecho, que não trazem pergunta nem informação nova. Se o cliente, mesmo depois do encaminhamento, fizer uma pergunta de verdade ou trouxer um dado novo sobre o caso, aí sim responda normalmente.\n\nA decisão de não responder também passa pelo `thinking`. Avalie a mensagem primeiro. Se concluir que é só um fecho, sua resposta final é vazia.\n\n---\n\n## Fluxo de atendimento\n\n### Etapa 1. Primeiro contato\n\nAbra com a saudação do campo SAUDAÇÃO CORRETA NESTE MOMENTO, no topo deste prompt, copiada exatamente, seguida de: \"Eu sou a Clara, atendente do escritório. Como posso te ajudar?\"\n\nDeixe o cliente falar primeiro. Você não pergunta nada antes da primeira mensagem dele.\n\nQuando ele enviar a primeira mensagem, avalie antes de tudo se o pedido é uma questão jurídica de uma das três áreas do escritório: cível e seguros, trabalhista ou previdenciária. Se for uma tarefa administrativa de terceiro ou uma proposta comercial dirigida ao escritório, NÃO colete nome nem cidade: aplique o Gate de escopo. Veja a seção Gate de escopo.\n\nSe for uma questão jurídica de uma das áreas, colete nome e cidade antes de aprofundar o caso: pergunte o nome e, depois que ele responder, pergunte de qual cidade ele é. Uma pergunta por vez. Guarde o que ele contou sem reagir ainda.\n\nCom nome e cidade em mãos, retome o relato, reaja ao que ele disse e siga para a triagem. Nunca descarte o que ele já contou nem o faça repetir. Vale igual se ele já chegar contando o caso, sem esperar sua pergunta: colete nome e cidade primeiro, depois volte ao relato.\n\nNome e cidade são obrigatórios antes do encaminhamento. Se por algum motivo a conversa avançar e você ainda não souber, pergunte num momento natural, sem interromper o raciocínio do cliente no meio de um relato.\n\n---\n\n### Etapa 2. Pedidos de ajuda genérica\n\nSe o cliente disser \"preciso de auxílio\", \"pode me ajudar?\" ou qualquer variação vaga, pergunte com o que pode ajudar.\n\n- Se o pedido estiver ao seu alcance como atendente, ajude normalmente.\n- Se não estiver, diga de forma simples que isso não é algo que você consegue ajudar, sem prometer nem redirecionar desnecessariamente.\n\n---\n\n### Etapa 3. Identificar a área e investigar\n\nOuça o que o cliente trouxe e identifique a área antes de fazer perguntas específicas.\n\nSe o pedido não for uma questão jurídica de nenhuma das áreas atendidas, aplique o Gate de escopo antes de qualquer pergunta. Não force o caso para dentro de uma área.\n\nAssim que a área ficar clara, consulte `buscar_documentos`. A base tem o que investigar em cada área, os critérios de elegibilidade e as respostas para as dúvidas comuns. Não invente perguntas de memória.\n\nÁreas atendidas:\n- Cível e seguros: acidente de trânsito, DPVAT, seguro de vida, responsabilidade civil, danos morais, materiais, estéticos, lucros cessantes, pensão.\n- Trabalhista: acidente de trabalho, doença laboral, esforço repetitivo, escala 12x36, danos morais, pensão, reintegração, rescisão de contrato.\n- Previdenciário: auxílio-doença, auxílio-acidente, aposentadoria por invalidez.\n\nFaça uma pergunta por vez, pulando tudo que o cliente já respondeu.\n\n**Pense sempre no quadro completo.** Um caso trabalhista pode envolver direitos previdenciários. Um acidente de trânsito pode envolver DPVAT, seguro de vida e responsabilidade civil ao mesmo tempo.\n\n---\n\n### Etapa 3-A. Quem é a vítima\n\nEm qualquer caso de acidente, lesão ou morte, quem está falando com você nem sempre é a vítima. Pode ser cônjuge, filho, pai, mãe, irmão ou outro familiar entrando em contato pela vítima.\n\nDescubra isso a partir do próprio relato, de forma natural, sem transformar em pergunta de formulário. Na maioria das vezes o cliente já deixa claro quem se acidentou. Só pergunte se estiver realmente ambíguo, e pergunte sobre a pessoa que se acidentou, nunca sobre \"quem\" entre o cliente e ela.\n\nRegra absoluta: quando o cliente relata que alguém faleceu, essa pessoa NÃO é quem está falando. É proibido, em qualquer forma, perguntar se a pessoa que faleceu foi o próprio cliente. Perguntas como \"a pessoa que faleceu foi você ou outra pessoa\" são absurdas e desumanas. Se houve morte, o cliente é sempre um familiar ou beneficiário, e você já sabe disso.\n\nQuando há falecimento:\n- Acolha primeiro. Uma frase curta e sincera de solidariedade antes de qualquer pergunta.\n- Nunca faça a pergunta sobre sequela ou limitação. A vítima faleceu, a pergunta não cabe e machuca.\n- As perguntas sobre trabalho e seguro passam a ser sobre a pessoa que faleceu, não sobre o cliente. Onde ela trabalhava, se ela tinha algum seguro na época.\n- Entenda a relação do cliente com quem faleceu, porque é isso que define quem são os beneficiários.\n- Os direitos passam a ser os de morte: indenização do Seguro DPVAT por morte quando a data permitir, seguro de vida, pensão por morte e danos morais aos familiares. Consulte `buscar_documentos`.\n\n---\n\n### Etapa 4. Verificação obrigatória da data no DPVAT\n\nEm casos de DPVAT ou acidente de trânsito, a data do acidente é a primeira coisa que você verifica sobre o caso. Antes de qualquer afirmação sobre o DPVAT.\n\nO cliente quase nunca dá uma data absoluta. Ele diz \"faz 4 meses\", \"ano passado\", \"faz uns tempos\". Você tem a data de hoje no topo deste prompt. CONVERTA para data real antes de dizer qualquer coisa sobre DPVAT. Nunca siga sem ter feito essa conta.\n\nCompare com 14 de novembro de 2023:\n\n- Acidente ATÉ 14/11/2023: o DPVAT pode se aplicar.\n- Acidente DEPOIS de 14/11/2023: o DPVAT NÃO se aplica. Foi revogado. A partir daí, o DPVAT está ENCERRADO nesta conversa e você NUNCA MAIS o menciona como possibilidade.\n\nPROIBIDO, quando o DPVAT não se aplica:\n- \"não só pelo DPVAT\"\n- \"além do DPVAT\"\n- \"pode haver análise pelo DPVAT e também por outros caminhos\"\n- qualquer frase que trate o DPVAT como possibilidade viva.\n\nEssas frases afirmam que o DPVAT cabe. Ele não cabe. Isso cria expectativa falsa no cliente.\n\nO que fazer quando a data não permite DPVAT, tudo na mesma resposta:\n1. Diga de forma direta e acolhedora que o Seguro DPVAT foi encerrado em novembro de 2023 e não cobre o acidente dele.\n2. Diga que isso não significa que ele não tenha direito a nada, porque existem outros caminhos que muitas vezes valem mais.\n3. Apresente os outros caminhos como os ÚNICOS caminhos, nunca como caminhos adicionais ao DPVAT.\n4. Faça a próxima pergunta e siga normalmente.\n\nIsso NÃO encerra o atendimento. Continue a investigação e encaminhe ao final, como em qualquer outro caso. A data elimina o DPVAT, não elimina o cliente.\n\nA regra da data vale igual quando a vítima faleceu. O óbito não altera o corte de 14 de novembro de 2023. Acidente com morte até essa data pode ter indenização do Seguro DPVAT por morte, paga aos herdeiros ou dependentes. Depois dessa data, o DPVAT não se aplica também nos casos de morte.\n\nConsulte `buscar_documentos` para os detalhes de elegibilidade, prazo e os outros direitos aplicáveis.\n\n---\n\n### Etapa 5. Gerar confiança\n\nOBRIGATÓRIO antes de encaminhar. Você nunca encaminha um caso sem antes dizer ao cliente quais direitos ele pode ter.\n\nUm cliente que é encaminhado sem entender que existe possibilidade de retorno acha que foi dispensado, e some.\n\nConsulte `buscar_documentos` e apresente, em uma ou duas mensagens curtas:\n- os direitos que se aplicam ao caso específico dele, nunca uma lista genérica;\n- que situações assim podem envolver mais direitos do que a pessoa imagina;\n- que dependendo do caso é possível receber valores atrasados.\n\nNão transforme em aula.\n\nComentar que o caso merece análise não é encaminhar. Depois de comentar, siga a sequência.\n\n---\n\n### Etapa 6. Encaminhar para humano\n\n**Antes de encaminhar, pare e verifique a área do caso.**\n\nSe for DPVAT ou acidente de trânsito, confirme que você já sabe:\n- a data do acidente, já comparada com 14 de novembro de 2023;\n- se ficou sequela ou limitação, ou, no caso de morte, a relação do cliente com a vítima;\n- se já houve pedido anterior, na seguradora, na justiça, ou com outro advogado;\n- onde o cliente, ou a vítima no caso de morte, trabalha ou trabalhava, e quais seguros existiam.\n\nSe o caso for de acidente com morte, no lugar da pergunta de sequela confirme a relação do cliente com quem faleceu, e passe as perguntas de trabalho e seguros para a vítima. Nunca pergunte sobre sequela da pessoa que faleceu.\n\nSe for escala 12x36, confirme que você já sabe:\n- a profissão do cliente;\n- há quanto tempo ele está na empresa;\n- com que frequência faz plantões extras;\n- se já trabalhou durante a folga de 36 horas;\n- se costuma trabalhar além das 12 horas previstas.\n\nSe for caso previdenciário, confirme que você já sabe:\n- qual benefício o cliente busca;\n- se o cliente tem carteira assinada;\n- caso não tenha, há quanto tempo ele está sem carteira assinada ou sem contribuir;\n- a situação de saúde ou incapacidade que motivou o contato.\n\nSe qualquer um desses pontos estiver em aberto, NÃO encaminhe. Pergunte o que falta primeiro. Ter contexto sobre o caso não substitui essa verificação. Mesmo que o caso já pareça claro, complete os pontos antes de encaminhar.\n\nExceção: se o cliente pedir explicitamente para falar com um advogado antes de você ter tudo, encaminhe assim mesmo. A vontade do cliente vence a regra.\n\nEncaminhe quando:\n- a verificação obrigatória estiver concluída;\n- o cliente pedir para falar com advogado ou especialista;\n- o cliente fizer perguntas que exigem análise aprofundada;\n- o cliente insistir em resposta definitiva;\n- o caso estiver confuso, delicado ou sensível.\n\nSequência:\n\n1. Apresente os possíveis direitos, conforme a Etapa 5.\n2. Chame `notificar_advogado`.\n3. Confirme o encaminhamento ao cliente. Sempre confirme, em qualquer dia ou horário.\n\nUse o campo EQUIPE DE ANÁLISE DISPONÍVEL AGORA, no topo deste prompt, para escolher a mensagem. Não calcule por conta própria.\n\nSe o campo estiver SIM, envie:\n\"Perfeito, vou encaminhar nossa conversa para análise da equipe. Assim que finalizarmos, um advogado vai te chamar aqui para te orientar com mais detalhes.\"\n\nNesse caso, nunca mencione o horário de funcionamento da equipe.\n\nSe o campo estiver NAO, envie:\n\"Perfeito, vou encaminhar nossa conversa para análise da equipe. Nossa equipe de análise trabalha de segunda a sexta, das 08 horas às 18 horas, então assim que possível eles vão analisar o seu caso e um advogado vai te chamar aqui para te orientar com mais detalhes.\"\n\n4. Chame `atualizar_status`.\n\nNunca divida a mensagem de encaminhamento em partes.\n\nNunca mencione o horário de funcionamento da equipe por iniciativa própria quando o campo estiver SIM. Essa informação só entra sozinha na mensagem de encaminhamento fora do expediente.\n\nSe o cliente perguntar diretamente qual o horário de atendimento, responda normalmente em qualquer dia ou horário: a equipe de análise trabalha de segunda a sexta, das 08 horas às 18 horas, e você segue à disposição no WhatsApp para o que ele precisar.\n\nDepois de encaminhar, se o cliente responder apenas com um agradecimento ou confirmação de fecho, não responda. Ver a seção Quando não responder.\n\n---\n\n### Etapa 7. Custo e honorários\n\nQuando o cliente perguntar sobre custo, valor, preço, grana, dinheiro ou se precisa pagar, responda com base nas informações abaixo. NÃO use `buscar_documentos` para isso.\n\nO escritório trabalha, em regra, com honorários de êxito, ou seja, só cobra se ganhar.\n\n- Em ações trabalhistas, cíveis, indenizatórias e de seguros: 30% sobre o valor da indenização recebida.\n- Em ações previdenciárias: 30% sobre os valores atrasados, acrescido das 4 primeiras parcelas do benefício em caso de auxílio-acidente.\n- Não há custo inicial para o cliente.\n- As condições finais são definidas pelo advogado após análise do caso.\n\nTransmita isso de forma natural, sem listar tópicos. Adapte ao contexto da conversa. Se o cliente disser que não tem dinheiro, deixe claro que não precisa ter, o escritório só recebe se o cliente receber.\n\n---\n\n### Etapa 8. Documentos\n\nVocê NÃO pede documentos ao cliente. Nunca.\n\n- Não solicite envio de arquivos.\n- Não liste documentos necessários.\n- Não fale em \"enviar documentação\".\n- Você PODE perguntar se determinado documento existe, como boletim de ocorrência, cartão de ponto ou exame, porque saber que o material existe ajuda a entender a força do caso. Mas apenas perguntar se existe. Nunca pedir o envio.\n- Se o cliente perguntar quais documentos precisa, diga que o advogado responsável vai orientar sobre isso no contato dele.\n- Se o cliente enviar um documento por conta própria, agradeça de forma simples e siga o atendimento. Não peça mais nada e não comente sobre o que estaria faltando.\n\n---\n\n### Etapa 9. Atendimento presencial\n\nSe o cliente pedir atendimento presencial, informe que o escritório realiza atendimentos presenciais e online.\n\nAntes de passar o endereço, confirme de onde o cliente é, caso ainda não saiba. Depois consulte `buscar_documentos` para o endereço correto. Nunca dê endereço de memória.\n\nApós passar o endereço, informe que é necessário agendar o atendimento presencial.\nMencione que também é possível realizar todo o atendimento de forma online, por videochamada ou WhatsApp, sem necessidade de deslocamento.\n\nChame `notificar_advogado` quando o cliente pedir atendimento presencial, caso ainda não tenha sido acionado neste contato.\n\nRegras:\n- Nunca passe os dois endereços ao mesmo tempo.\n- Só passe o endereço após saber de onde o cliente é.\n- Se o cliente for de outro estado não listado, pergunte qual a cidade mais próxima e oriente para o endereço mais acessível.\n\n---\n\n## Lembre-se\n\n- Avance assim que tiver contexto suficiente. Não espere ter tudo para agir. Isso não vale para as verificações obrigatórias de cada área, que precisam ser concluídas antes do encaminhamento.\n- Seu papel é conduzir, não concluir.\n- Menos explicação, mais direção.\n- Nunca prometa resultado.\n- Nunca estime valores.\n- Nunca dê parecer definitivo.\n- Em acidente com morte, quem fala é sempre um familiar ou beneficiário, nunca a vítima. Jamais pergunte se o falecido é o próprio cliente. Acolha, pule a pergunta de sequela e trate trabalho e seguros como sendo da vítima.\n- Só atenda questões jurídicas das áreas cível e de seguros, trabalhista e previdenciária. Pedidos administrativos de terceiros estão fora de escopo. Aplique o Gate de escopo e não colete dados pessoais nesses casos.\n- Nunca afirme que um cliente tem ou não tem direito a benefício do INSS. Isso vale especialmente para quem não é CLT, trabalha por conta própria, informal ou autônomo. Apenas colete há quanto tempo está sem carteira assinada ou sem contribuir e encaminhe para o advogado avaliar.\n- Depois de já ter encaminhado, se o cliente só agradecer ou confirmar, não responda. O advogado assume a partir dali.\n- Nunca invente informação. Se não achou na base, diga que a equipe vai verificar.\n- Nunca peça o envio de documentos. Quem trata disso é o advogado.\n- Use `thinking` antes de responder."
+        }
+      },
+      "id": "ae7ddf2d-d568-4296-af3f-b1d4a60ef62a",
+      "name": "Supervisor",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        8288,
+        5328
+      ],
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "description": "Notifica o advogado responsavel sobre um caso qualificado. No campo assunto, se o cliente ja tiver pedido na seguradora, acao judicial ou outro advogado, escreva isso no inicio do assunto em letras maiusculas.",
+        "workflowId": {
+          "__rl": true,
+          "value": "BfKerTdNSlf1Znji",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/BfKerTdNSlf1Znji",
+          "cachedResultName": "Edio Germano Ern Advocacia | Agente de Notificação"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nomeCliente": "={{ $fromAI('nomeCliente', ``, 'string') }}",
+            "telefoneCliente": "={{ $('Dados').item.json.Telefone.replace('@s.whatsapp.net', '') }}",
+            "assunto": "={{ $fromAI('assunto', ``, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nomeCliente",
+              "displayName": "nomeCliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "telefoneCliente",
+              "displayName": "telefoneCliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "assunto",
+              "displayName": "assunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        8352,
+        5552
+      ],
+      "id": "b42c0df0-641f-420c-9183-4a014552707a",
+      "name": "notificar_advogado"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "M0wSthcttlm2WQkf",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/M0wSthcttlm2WQkf",
+          "cachedResultName": "Edio Germano Ern Advocacia | Atualizar Status"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "telefone": "={{ $('Dados').item.json.Telefone }}"
+          },
+          "matchingColumns": [
+            "telefone"
+          ],
+          "schema": [
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        8480,
+        5552
+      ],
+      "id": "d8824e95-41cf-41ee-be63-37c583bd06ce",
+      "name": "atualizar_status"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11800d83-ecca-4f9c-a878-a2419db0c8e9",
+              "name": "message.chat_id",
+              "value": "={{ $json.body.data.key.remoteJid || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "c33f9527-e661-49e5-8e5e-64f3b430928a",
+              "name": "message.content_type",
+              "value": "={{ $json.body.data.message.extendedTextMessage ? 'text' : '' }}{{ $json.body.data.message.conversation ? 'text' : '' }}{{ $json.body.data.message.audioMessage ? 'audio' : '' }}{{ $json.body.data.message.imageMessage ? 'image' : '' }}",
+              "type": "string"
+            },
+            {
+              "id": "06eba1c9-cff0-4f68-b6da-6bb0092466b7",
+              "name": "message.content",
+              "value": "={{ $json.body.data.message.extendedTextMessage?.text || '' }}{{ $json.body.data.message.imageMessage?.caption || '' }}{{ $json.body.data.message.conversation || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "b97f1af3-5361-46fc-9303-d644921231d8",
+              "name": "message.timestamp",
+              "value": "={{ $json.body.data.messageTimestamp.toDateTime('s').toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "dc3dc59c-90a3-4a45-bea2-de092c91083b",
+              "name": "message.content_url",
+              "value": "={{ $json.body.data.message.audioMessage?.url || '' }}{{ $json.body.data.message.imageMessage?.url || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "8b01a818-a456-476e-bace-adefe2f04eb4",
+              "name": "message.event",
+              "value": "={{ $json.body.data.key.fromMe ? 'outcoming' : 'incoming' }}",
+              "type": "string"
+            },
+            {
+              "id": "886e3751-e39b-4fc6-98d1-3113eaeebbb4",
+              "name": "=body.event",
+              "value": "={{ $json.body.event }}",
+              "type": "string"
+            },
+            {
+              "id": "d04a0c6e-7842-41d2-bdb0-c0ce51d6dad7",
+              "name": "Telefone",
+              "value": "={{ $json.telefoneResolvido }}",
+              "type": "string"
+            },
+            {
+              "id": "a57db642-3e13-452e-bb5b-19f7e9f3bd5d",
+              "name": "NomeWhatsapp",
+              "value": "={{ $json.body.data.pushName }}",
+              "type": "string"
+            },
+            {
+              "id": "f5fcee3e-a786-404b-8b92-0163e02c6615",
+              "name": "Instance",
+              "value": "={{ $json.body.instance }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4af93c79-3f3e-429c-b767-135868975f25",
+      "name": "Dados",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2240,
+        5280
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "9865cb5b-33da-490c-afc3-186457d5b564",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    },
+                    "leftValue": "={{ $('Dados').item.json.message.content }}",
+                    "rightValue": "Irei repassar nosso atendimento para a Clara, qualquer dúvida que tiver pode perguntar que assim que possível era irá responder."
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IA Pausada"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5a9a1fee-b408-469f-a08c-e8d690fc9792",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $('Dados').item.json.message.content }}",
+                    "rightValue": "Irei repassar nosso atendimento para a Clara, qualquer dúvida que tiver pode perguntar que assim que possível era irá responder."
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reativar IA"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c266fb0c-5140-414f-af51-632514c759b6",
+      "name": "Rotas",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        3584,
+        5200
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Dados').item.json.Telefone }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        7968,
+        5552
+      ],
+      "id": "fa047fc1-f300-4a4f-b039-7bd06d09d9eb",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "DtFVgLoFBkq2UVDQ",
+          "name": "Postgres - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        8688,
+        5760
+      ],
+      "id": "8366c1e5-e864-4f7b-8aad-677943bdcbf9",
+      "name": "Embeddings Base",
+      "credentials": {
+        "openAiApi": {
+          "id": "OweGMSvydec48dea",
+          "name": "OpenAI - Édio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Consulte esta base para duvidas sobre prazos, requisitos, criterios de elegibilidade e documentos necessarios de cada area do escritorio. Use sempre que o cliente perguntar algo especifico sobre direitos, prazos ou documentacao. Nao use para honorarios.",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        8608,
+        5552
+      ],
+      "id": "1477fdf3-e44b-40ae-a7f6-f28361468e11",
+      "name": "Base de Conhecimento",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Dados').item.json.message.event }}",
+                    "rightValue": "outcoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "7c878f9b-2c93-4061-954a-a832153e7647"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "outcoming"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "d7b42536-638f-4128-b51b-6aa913e9d9bc",
+                    "leftValue": "={{ $('Dados').item.json.message.event }}",
+                    "rightValue": "incoming",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "incoming"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "362d1fb3-aec3-4e4e-a0d5-00eddc247d81",
+      "name": "ROTA de Entrada/Saída",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        3360,
+        5376
+      ]
+    },
+    {
+      "parameters": {
+        "tableId": "dados_cliente",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nomewpp",
+              "fieldValue": "={{ $('Dados').item.json.NomeWhatsapp }}"
+            },
+            {
+              "fieldId": "telefone",
+              "fieldValue": "={{ $('Dados').item.json.Telefone }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now}}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3136,
+        5440
+      ],
+      "id": "fac196c0-7f6f-4173-8745-0f66fbab1b72",
+      "name": "Criação de Cliente",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        5376
+      ],
+      "id": "162f0c43-0901-449c-9b22-e6e3698847e2",
+      "name": "Busca de Cliente",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.atendimento_ia }}",
+                    "rightValue": "pause",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    },
+                    "id": "ff00573b-e517-43c6-8644-14a4fe8565d1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IA Ativa"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "3ef0e01c-cc14-4663-bb4d-2905b350c3ab",
+                    "leftValue": "={{ $json.atendimento_ia }}",
+                    "rightValue": "=pause",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "IA pausada"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c5964125-9c31-45fa-b027-378ccb432d9a",
+      "name": "ROTA de Atendimento",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        4928,
+        5568
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4256,
+        5200
+      ],
+      "id": "a60027aa-48d7-4248-8a17-350f57014223",
+      "name": "N/A 01"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        5376,
+        5824
+      ],
+      "id": "79d6899a-795e-4f0f-9e62-65d124abfd74",
+      "name": "N/A 02"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_chat_histories",
+          "mode": "list",
+          "cachedResultName": "n8n_chat_histories"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Dados').item.json.Telefone }}",
+            "message": "={\"type\": \"human\", \"content\": \"{{ $('Dados').item.json.message.content.replace(/\\n/g, ' ') }}\", \"additional_kwargs\": {}, \"response_metadata\": {}}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        4032,
+        5200
+      ],
+      "id": "9fd2b394-0809-4dd2-b05a-bf902a0eb675",
+      "name": "Salvar Historico - Pausando IA",
+      "credentials": {
+        "postgres": {
+          "id": "DtFVgLoFBkq2UVDQ",
+          "name": "Postgres - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "n8n_chat_histories",
+          "mode": "list",
+          "cachedResultName": "n8n_chat_histories"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "session_id": "={{ $('Dados').item.json.Telefone }}",
+            "message": "={\"type\": \"human\", \"content\": \"{{ $('Dados').item.json.message.content.replace(/\\n/g, ' ') }}\", \"additional_kwargs\": {}, \"response_metadata\": {}}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "session_id",
+              "displayName": "session_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [
+        5152,
+        5824
+      ],
+      "id": "7614fcdf-d5cd-47f6-bcd1-ad75aeeef6c4",
+      "name": "Salvar Histórico - IA Pausada",
+      "credentials": {
+        "postgres": {
+          "id": "DtFVgLoFBkq2UVDQ",
+          "name": "Postgres - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "52aaf749-fe4f-44e4-880e-15b2bfc027f1",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "extendedTextMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "e514e613-fd6a-48bd-b0ae-bae2448c810e",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "conversation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "audioMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "287e74fd-e802-44cd-8ef2-e10313371b95"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "c0e434dd-1268-421d-b81b-3a5e90ed9550",
+                    "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+                    "rightValue": "imageMessage",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bb3394cf-0f91-4804-8532-59f457cf9985",
+      "name": "ROTA de Mensagens",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        5152,
+        5264
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c5ccbc9-69d1-4b13-a7c3-e6945bc8c655",
+              "name": "data",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a90d9484-4724-4256-8dfd-38a0530a0bc3",
+      "name": "Dados de Áudio",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5600,
+        5280
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c5ccbc9-69d1-4b13-a7c3-e6945bc8c655",
+              "name": "data",
+              "value": "={{ $('Webhook EVO').item.json.body.data.message.base64 }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "35674d4b-bb47-46d2-9f4f-57ec3ad0bca6",
+      "name": "Dados de Imagem",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5376,
+        5616
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "fileName": "file.ogg",
+          "mimeType": "application/ogg"
+        }
+      },
+      "id": "d0feb6b1-b556-49fa-a0e0-33a180a646e8",
+      "name": "Conversão de áudio",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        5824,
+        5280
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Analise essa imagem/documento e resuma pra mim o que ela é",
+        "inputType": "base64",
+        "options": {}
+      },
+      "id": "9e1e2ae0-8637-44ec-b93b-226511020802",
+      "name": "OpenAI - Análise de Imagem",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        5824,
+        5616
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "OweGMSvydec48dea",
+          "name": "OpenAI - Édio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "b1c1609f-2467-4c57-9712-10c097a90516",
+      "name": "OpenAI - Transcrição de Áudio",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.6,
+      "position": [
+        6048,
+        5280
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "OweGMSvydec48dea",
+          "name": "OpenAI - Édio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "fileName": "file.png",
+          "mimeType": "image/png"
+        }
+      },
+      "id": "799be88e-8d83-480d-bf79-5c05cda4ce75",
+      "name": "Conversão de Imagem",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        5600,
+        5616
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "ade56c50-1520-4760-8df5-e99617d6d3ad",
+              "leftValue": "={{ $('Webhook EVO').item.json.body.data.message.imageMessage.caption }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "983be72a-81e4-4f40-b90e-8b14bbfca270",
+      "name": "IF - Imagem com/sem legenda",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        6048,
+        5616
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=fila_{{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $('Dados').item.json.message.content }}, {{ $json.content.replace(/\\n/g, \"\\\\n\").replace(/['\"]/g, '').trim()  }}",
+        "tail": true
+      },
+      "id": "69dc3dfd-dc4e-4e23-aed3-4541ee5426ca",
+      "name": "REDIS - Imagem com legenda",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        6272,
+        5664
+      ],
+      "credentials": {
+        "redis": {
+          "id": "jWOsioHN39uCqHrb",
+          "name": "Redis - Evolution"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=fila_{{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $json.content.replace(/\\n/g, \"\\\\n\").replace(/['\"]/g, '').trim()  }}",
+        "tail": true
+      },
+      "id": "b63dda41-5638-40c2-9e1f-459a4f97cded",
+      "name": "REDIS - Imagem sem legenda",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        6272,
+        5472
+      ],
+      "credentials": {
+        "redis": {
+          "id": "jWOsioHN39uCqHrb",
+          "name": "Redis - Evolution"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=fila_{{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $json.text }}",
+        "tail": true
+      },
+      "id": "d81d9729-04d6-4ccb-93d0-263945bd6183",
+      "name": "REDIS - Áudio",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        6272,
+        5280
+      ],
+      "credentials": {
+        "redis": {
+          "id": "jWOsioHN39uCqHrb",
+          "name": "Redis - Evolution"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "=fila_{{ $('Dados').item.json.Telefone }}",
+        "messageData": "={{ $('Dados').item.json.message.content }}",
+        "tail": true
+      },
+      "id": "af3963c2-0958-4f39-9738-b9adda2a8d8f",
+      "name": "REDIS - Texto",
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        6272,
+        5040
+      ],
+      "credentials": {
+        "redis": {
+          "id": "jWOsioHN39uCqHrb",
+          "name": "Redis - Evolution"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "239cab79-8fb1-45ca-9a04-11006892d52e",
+              "name": "mensagem",
+              "value": "={{ $json.content || $('Dados').item.json.message.content || $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6496,
+        5456
+      ],
+      "id": "40abffb7-6c7f-4cd6-b1d4-7d0cafd1ee4d",
+      "name": "Dados - Mensagem"
+    },
+    {
+      "parameters": {
+        "jsCode": "const Redis = require('ioredis');\n\nconst client = new Redis({\n  host: 'ediogermanoern_evolution-api-redis',\n  port: 6379,\n  password: '2jep09eyowo675dkf2z1',\n});\n\nconst key = 'fila_' + $('Dados').first().json.Telefone;\n\nconst mensagens = await client.lrange(key, 0, -1);\n\nawait client.quit();\n\nreturn [{\n  json: {\n    mensagens: mensagens,\n    textoCompleto: mensagens.join(' '),\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6944,
+        5456
+      ],
+      "id": "883204ff-5340-422c-b34e-52a9d08cb0bb",
+      "name": "Enfileiramento de mensagens"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        7392,
+        5520
+      ],
+      "id": "c8e5a839-7f4c-45e7-8cb5-6c17f0700fe6",
+      "name": "N/A 03"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "239cab79-8fb1-45ca-9a04-11006892d52e",
+              "name": "mensagem_completa",
+              "value": "={{ $('Enfileiramento de mensagens').item.json.textoCompleto }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7392,
+        5328
+      ],
+      "id": "1becb615-ace1-46da-8442-f6aa44cea40c",
+      "name": "Mensagem Completa"
+    },
+    {
+      "parameters": {
+        "model": "gpt-5.4-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        7840,
+        5552
+      ],
+      "id": "b7060c2c-69b1-420f-90fc-0b744e8d3fb0",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "OweGMSvydec48dea",
+          "name": "OpenAI - Édio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "chats",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "phone",
+              "keyValue": "={{ $('Dados').item.json.Telefone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        9232,
+        4816
+      ],
+      "id": "2568083d-0f5c-4c39-9954-e26697016419",
+      "name": "Buscar Telefone",
+      "alwaysOutputData": true,
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "defac08a-6745-422b-bb05-90da9f47d91b",
+              "leftValue": "={{ $('Buscar Telefone').item.json.phone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        9456,
+        4816
+      ],
+      "id": "c8bdb780-e185-4dfa-8261-a0bc5dfbf0fb",
+      "name": "IF - Telefone existe"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        9904,
+        4816
+      ],
+      "id": "a8a5c568-3494-4814-9c4f-3cb8160ab699",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "tableId": "chat_messages",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "phone",
+              "fieldValue": "={{ $('Dados').first().json.Telefone }}"
+            },
+            {
+              "fieldId": "bot_message",
+              "fieldValue": "={{ $('Supervisor').first().json.output }}"
+            },
+            {
+              "fieldId": "user_message",
+              "fieldValue": "={{ $('Mensagem Completa').first().json.mensagem_completa }}"
+            },
+            {
+              "fieldId": "message_type",
+              "fieldValue": "={{ $('Dados').first().json.message.content_type }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $now }}"
+            },
+            {
+              "fieldId": "nomewpp",
+              "fieldValue": "={{ $('Dados').first().json.NomeWhatsapp }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        10128,
+        4816
+      ],
+      "id": "323b5059-68df-46d4-a443-f683c016a7df",
+      "name": "Criar Histórico",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "speech",
+        "voice": {
+          "__rl": true,
+          "value": "OB6x7EbXYlhG4DDTB1XU",
+          "mode": "list",
+          "cachedResultName": "Michelle - Youthful, Vibrant and Bold"
+        },
+        "text": "={{$('Split de Mensagens').all().map(i => i.json.output).join(' ')}}",
+        "additionalOptions": {
+          "voiceSettings": "{\n  \"stability\": 0.85,\n  \"similarity_boost\": 0.9,\n  \"style\": 0.1,\n  \"use_speaker_boost\": true,\n  \"speed\": 1.11\n}"
+        },
+        "requestOptions": {}
+      },
+      "type": "@elevenlabs/n8n-nodes-elevenlabs.elevenLabs",
+      "typeVersion": 1,
+      "position": [
+        9904,
+        5104
+      ],
+      "id": "cd446b55-1dec-465c-9ccd-c6fce0cbdc06",
+      "name": "Conversão Texto para Áudio",
+      "executeOnce": true,
+      "credentials": {
+        "elevenLabsApi": {
+          "id": "PvpouPz6cHEYCRON",
+          "name": "ElevenLabs - Clara"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        9680,
+        5104
+      ],
+      "id": "90f5f3ca-ce33-4334-8e6e-39b022e13308",
+      "name": "Cooldown",
+      "webhookId": "e667d1cf-4909-484c-9ab9-ea5f7d5426cc"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "024662c2-cb33-409c-bba5-d29a96e92c49",
+              "leftValue": "={{ $('Webhook EVO').item.json.body.data.messageType }}",
+              "rightValue": "audioMessage",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        9456,
+        5328
+      ],
+      "id": "78869097-b675-4ada-92bc-6150dd1b2e7d",
+      "name": "IF - Foi áudio?"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5d735d62-f17d-4509-9630-7fb6575950b0",
+      "name": "Loop",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        9680,
+        5376
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "0ca31b60-3295-46cb-81c9-a0fec22303fe",
+      "name": "Cooldown Loop",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        10128,
+        5376
+      ],
+      "webhookId": "8d96e41c-63f5-411b-ad33-72702c974981"
+    },
+    {
+      "parameters": {
+        "jsCode": "const binaryData = await this.helpers.getBinaryDataBuffer(0, 'data');\nconst base64 = binaryData.toString('base64');\nreturn [{ json: { audio_base64: base64 } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        10128,
+        5104
+      ],
+      "id": "ec8a61ca-4c84-487f-b166-74ddf4d483d0",
+      "name": "Código de conversão para envio"
+    },
+    {
+      "parameters": {
+        "jsCode": "const LIMITE = 600;\nconst MIN_MERGE = 45;\n\nfunction limpar(t) {\n  return t\n    .replace(/```[\\s\\S]*?```/g, '')\n    .replace(/\\*\\*(.*?)\\*\\*/g, '$1')\n    .replace(/\\*(.*?)\\*/g, '$1')\n    .replace(/__(.*?)__/g, '$1')\n    .replace(/_(.*?)_/g, '$1')\n    .replace(/~~(.*?)~~/g, '$1')\n    .replace(/^#{1,6}\\s*/gm, '')\n    .replace(/^\\s*[-*+]\\s+/gm, '')\n    .replace(/\\s*—\\s*/g, ', ')\n    .replace(/\\s+([,.;:!?])/g, '$1')\n    .replace(/[ \\t]+/g, ' ')\n    .trim();\n}\n\nfunction ehLista(bloco) {\n  const linhas = bloco.split('\\n').filter(l => l.trim());\n  return linhas.length >= 3 && linhas.every(l => l.trim().length < 90);\n}\n\nconst bruto = $json.output;\n\nif (!bruto || typeof bruto !== 'string' || !bruto.trim()) {\n  return [];\n}\n\nconst RE_SAUDACAO = /^(ol[áa]|oi)[,!]?\\s*(bom dia|boa tarde|boa noite)[!.]?\\s*(\\p{Extended_Pictographic}+)?\\s*/iu;\nlet saudacao = null;\nlet corpo = bruto;\nconst m = bruto.match(RE_SAUDACAO);\nif (m && m[0].trim().length < 40) {\n  saudacao = m[0].trim();\n  corpo = bruto.slice(m[0].length).trim();\n  if (!corpo) { corpo = ''; }\n}\n\nconst blocos = corpo.split(/\\n\\s*\\n/).map(b => b.trim()).filter(Boolean);\n\nconst partes = [];\nfor (const bloco of blocos) {\n  if (ehLista(bloco)) {\n    partes.push(limpar(bloco.replace(/\\n/g, '\\n')));\n    continue;\n  }\n  const texto = limpar(bloco.replace(/\\n/g, ' '));\n  if (!texto) continue;\n\n  if (texto.length <= LIMITE) {\n    partes.push(texto);\n  } else {\n    const frases = texto.match(/[^.!?]+[.!?]+|\\S+$/g) || [texto];\n    let atual = '';\n    for (const f of frases) {\n      if ((atual + ' ' + f).trim().length > LIMITE && atual) {\n        partes.push(atual.trim());\n        atual = f;\n      } else {\n        atual = (atual + ' ' + f).trim();\n      }\n    }\n    if (atual.trim()) partes.push(atual.trim());\n  }\n}\n\nconst finais = [];\nfor (let i = 0; i < partes.length; i++) {\n  const p = partes[i];\n  const curto = p.length < MIN_MERGE && !p.endsWith('?');\n  const grudavel = curto && /\\.\\s*$/.test(p);\n  if (grudavel && finais.length) {\n    finais[finais.length - 1] += ' ' + p;\n  } else if (grudavel && !finais.length && partes[i + 1]) {\n    partes[i + 1] = p + ' ' + partes[i + 1];   // gruda no proximo\n  } else {\n    finais.push(p);\n  }\n}\n\nconst saida = finais.filter(m => m && m.trim().length > 0);\n\nif (saudacao) saida.unshift(saudacao);\n\nif (!saida.length) {\n  return [];\n}\n\nreturn saida.map(m => ({ json: { output: m } }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9232,
+        5328
+      ],
+      "id": "74c8f474-3841-4820-aeb8-33c1bf2b7cf5",
+      "name": "Split de Mensagens"
+    },
+    {
+      "parameters": {
+        "description": "Consulta os horários disponíveis para agendar atendimento com um advogado.\nUse exclusivamente em casos de escala de trabalho 12x36.\nNão recebe parâmetros. Retorna as opções livres já formatadas no campo mensagem,\nonde cada linha vem como \"texto | data ISO\".\nChame esta ferramenta ANTES de mencionar qualquer horário ao cliente.\nNunca ofereça data ou hora sem ter chamado esta ferramenta.",
+        "workflowId": {
+          "__rl": true,
+          "value": "bBY7qXtQDAGLBNFd",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/bBY7qXtQDAGLBNFd",
+          "cachedResultName": "Edio Germano Ern Advocacia | Consultar Horarios"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        8896,
+        5552
+      ],
+      "id": "f5e9df77-0ded-41fd-8d05-aee2fd6aca4d",
+      "name": "consultar_horarios"
+    },
+    {
+      "parameters": {
+        "description": "Agenda o atendimento com o advogado no horário escolhido pelo cliente.\nUse exclusivamente em casos de escala de trabalho 12x36 e somente depois de\nter chamado consultar_horarios e o cliente ter escolhido uma das opções.\nO parâmetro slotIso deve ser a data ISO exata retornada por consultar_horarios,\na parte que vem depois da barra vertical.\nRetorna ok true em caso de sucesso, ou ok false com o motivo se o horário\njá tiver sido ocupado.",
+        "workflowId": {
+          "__rl": true,
+          "value": "hoIOuQ2dVDUTDTlA",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/hoIOuQ2dVDUTDTlA",
+          "cachedResultName": "Edio Germano Ern Advocacia | Consultar Horarios"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "slotIso": "={{ $fromAI('slotIso', 'Data e hora escolhida pelo cliente em formato ISO 8601, exatamente como retornada por consultar_horarios', 'string') }}",
+            "nomeCliente": "={{ $fromAI('nomeCliente', 'Nome do cliente', 'string') }}",
+            "telefone": "={{ $('Dados').item.json.Telefone }}",
+            "assunto": "={{ $fromAI('assunto', 'Resumo curto do caso de escala 12x36', 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "slotIso",
+              "displayName": "slotIso",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "nomeCliente",
+              "displayName": "nomeCliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "assunto",
+              "displayName": "assunto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        9024,
+        5552
+      ],
+      "id": "ab8bc638-c1a4-461c-b977-261fe817367a",
+      "name": "agendar_atendimento"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n\nconst isPhone = (j) => typeof j === 'string' && j.endsWith('@s.whatsapp.net');\nconst out = [];\n\nfor (const item of $input.all()) {\n  const raw = item.json;\n  const key = (raw && raw.body && raw.body.data && raw.body.data.key) || {};\n  const remoteJid = key.remoteJid || '';\n  let telefone = remoteJid;\n  let metodo = 'remoteJid';\n\n  if (!isPhone(remoteJid) && remoteJid.endsWith('@lid')) {\n    if (isPhone(key.remoteJidAlt)) {\n      telefone = key.remoteJidAlt;\n      metodo = 'remoteJidAlt';\n    } else if (isPhone(key.senderPn)) {\n      telefone = key.senderPn;\n      metodo = 'senderPn';\n    } else {\n      const serverUrl = raw && raw.body && raw.body.server_url;\n      const instance  = raw && raw.body && raw.body.instance;\n      const apikey    = raw && raw.body && raw.body.apikey;\n      metodo = 'findMessages';\n      try {\n        const resp = await this.helpers.httpRequest({\n          method: 'POST',\n          url: serverUrl + '/chat/findMessages/' + encodeURIComponent(instance),\n          headers: { apikey: apikey, 'Content-Type': 'application/json' },\n          body: { where: { key: { remoteJid: remoteJid } } },\n          json: true,\n        });\n        const records = (resp && resp.messages && resp.messages.records) || [];\n        let achou = null;\n        for (const r of records) {\n          const k = (r && r.key) || {};\n          if (isPhone(k.remoteJidAlt)) { achou = k.remoteJidAlt; break; }\n          if (isPhone(k.remoteJid))    { achou = k.remoteJid;    break; }\n        }\n        if (achou) { telefone = achou; }\n        else { metodo = 'findMessages_sem_vinculo'; }\n      } catch (e) {\n        metodo = 'findMessages_erro';\n      }\n    }\n  }\n\n  out.push({\n    json: Object.assign({}, raw, {\n      telefoneResolvido: telefone,\n      lidOriginal: remoteJid,\n      metodoResolucao: metodo,\n    })\n  });\n}\n\nreturn out;\n"
+      },
+      "id": "822e540a-99c5-4e8a-b8f1-e6d9acf224f3",
+      "name": "Resolver Telefone",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        5280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b2c3d4e5-0002-4a02-9a02-guardalidcond1",
+              "leftValue": "={{ $json.Telefone }}",
+              "rightValue": "@lid",
+              "operator": {
+                "type": "string",
+                "operation": "endsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "de900920-53f7-40ae-bddb-a1824486687d",
+      "name": "Guarda LID",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2464,
+        5280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "85601214-fd81-4a6c-94d5-77c728b35469",
+      "name": "LID nao resolvido (ignora)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2688,
+        5184
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "keyValue": "={{ $json.telefone }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        3584,
+        5568
+      ],
+      "name": "Ler flag video",
+      "id": "7867d0cc-7310-4094-ab42-7c34b439d209",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      },
+      "notes": "Le video_inicial da linha do telefone atual. Ajuste $json.telefone para o campo real que carrega o telefone neste ponto do fluxo (ex.: 554999743228@s.whatsapp.net)."
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.video_inicial.toBoolean() }}",
+              "rightValue": "false",
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              },
+              "id": "6a4c8065-3594-4f28-aca4-d3c1a18e988d"
+            },
+            {
+              "id": "80f671b0-9871-4e80-b04f-2202320c9b1d",
+              "leftValue": "={{ $json.atendimento_ia }}",
+              "rightValue": "null",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        3808,
+        5568
+      ],
+      "name": "Primeiro contato?",
+      "id": "3fa8d61e-2775-4a8e-bb29-af8f108e79be",
+      "notes": "TRUE (flag = false) -> baixa e envia o video. FALSE -> segue direto pro agente."
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1r1e63OsDHKOz3LA-3kbVphVBmMQDXiCP",
+          "mode": "list",
+          "cachedResultName": "Apresentação.mp4",
+          "cachedResultUrl": "https://drive.google.com/file/d/1r1e63OsDHKOz3LA-3kbVphVBmMQDXiCP/view?usp=drivesdk"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4032,
+        5488
+      ],
+      "name": "Baixar video Drive",
+      "id": "d26da952-df36-4e14-a289-0f87962edd43",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "HQW47PaTCnp6iHAH",
+          "name": "Google Drive account"
+        }
+      },
+      "notes": "Troque COLE_AQUI_O_FILE_ID_DO_DRIVE pelo ID do arquivo (o trecho entre /d/ e /view na URL do Drive). Selecione a credencial Google Drive OAuth2 cuja conta enxerga este arquivo. Saida: binario na propriedade 'data'."
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "dados_cliente",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "telefone",
+              "condition": "eq",
+              "keyValue": "={{ $('Ler flag video').item.json.telefone }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "video_inicial",
+              "fieldValue": "true"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        4704,
+        5488
+      ],
+      "name": "Marcar video enviado",
+      "id": "d9a9a84e-6370-4be5-bda9-22aad37e0c8c",
+      "credentials": {
+        "supabaseApi": {
+          "id": "3nlTsHSsj6yLqjJm",
+          "name": "Supabase - Clara"
+        }
+      },
+      "notes": "Seta a flag = true logo apos o envio. Referencia o telefone via no 'Ler flag video' para nao depender do output do no Evolution."
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        4256,
+        5488
+      ],
+      "id": "aab3c364-5ef1-424f-be72-b0b0f7a46231",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {
+    "Webhook EVO": [
+      {
+        "json": {
+          "headers": {
+            "host": "ediogermanoern-n8n.sxlufu.easypanel.host",
+            "user-agent": "axios/1.13.2",
+            "content-length": "946",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "172.16.1.1",
+            "x-forwarded-host": "ediogermanoern-n8n.sxlufu.easypanel.host",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "392efa7bfc83",
+            "x-real-ip": "172.16.1.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "EGE | Clara",
+            "data": {
+              "key": {
+                "remoteJid": "554892073192@s.whatsapp.net",
+                "remoteJidAlt": "554892073192@s.whatsapp.net",
+                "fromMe": true,
+                "id": "3EB0743797EFAE695CFFAA",
+                "participant": "",
+                "addressingMode": "lid"
+              },
+              "pushName": "Clara - Atendimento Édio Germano Ern Advocacia",
+              "status": "SERVER_ACK",
+              "message": {
+                "conversation": "Antes de iniciarmos o seu atendimento, convidamos você a assistir ao vídeo e conhecer um pouco mais sobre o nosso escritório e a forma como trabalhamos."
+              },
+              "contextInfo": null,
+              "messageType": "conversation",
+              "messageTimestamp": 1786453723,
+              "instanceId": "061579e1-f694-40f4-a784-7916ed1f8e69",
+              "source": "web"
+            },
+            "destination": "https://ediogermanoern-n8n.sxlufu.easypanel.host/webhook/ediogermanoern_clara",
+            "date_time": "2026-08-11T10:08:43.555Z",
+            "sender": "554999079725@s.whatsapp.net",
+            "server_url": "https://ediogermanoern-evolution-api.sxlufu.easypanel.host",
+            "apikey": "D762855699E5-4BD0-BCCB-5E202809E6FF"
+          },
+          "webhookUrl": "https://ediogermanoern-n8n.sxlufu.easypanel.host/webhook/ediogermanoern_clara",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Adiciona CHAT supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Atualiza CHAT Supabase": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Webhook EVO": {
+      "main": [
+        [
+          {
+            "node": "Resolver Telefone",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pausar IA": {
+      "main": [
+        [
+          {
+            "node": "Salvar Historico - Pausando IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reativar IA": {
+      "main": [
+        [
+          {
+            "node": "Salvar Historico - Pausando IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cliente Existe?": {
+      "main": [
+        [
+          {
+            "node": "ROTA de Entrada/Saída",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Criação de Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "thinking": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intervalo entre Mensagens": {
+      "main": [
+        [
+          {
+            "node": "Enfileiramento de mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deletar Mensagens": {
+      "main": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compara Memoria": {
+      "main": [
+        [
+          {
+            "node": "Mensagem Completa",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "N/A 03",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supervisor": {
+      "main": [
+        [
+          {
+            "node": "Buscar Telefone",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split de Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "notificar_advogado": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "atualizar_status": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados": {
+      "main": [
+        [
+          {
+            "node": "Guarda LID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rotas": {
+      "main": [
+        [
+          {
+            "node": "Pausar IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reativar IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Base": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Base de Conhecimento",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base de Conhecimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ROTA de Entrada/Saída": {
+      "main": [
+        [
+          {
+            "node": "Rotas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ler flag video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Criação de Cliente": {
+      "main": [
+        [
+          {
+            "node": "ROTA de Entrada/Saída",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca de Cliente": {
+      "main": [
+        [
+          {
+            "node": "Cliente Existe?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ROTA de Atendimento": {
+      "main": [
+        [
+          {
+            "node": "ROTA de Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Salvar Histórico - IA Pausada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salvar Historico - Pausando IA": {
+      "main": [
+        [
+          {
+            "node": "N/A 01",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Salvar Histórico - IA Pausada": {
+      "main": [
+        [
+          {
+            "node": "N/A 02",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ROTA de Mensagens": {
+      "main": [
+        [
+          {
+            "node": "REDIS - Texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "REDIS - Texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dados de Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dados de Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados de Áudio": {
+      "main": [
+        [
+          {
+            "node": "Conversão de áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados de Imagem": {
+      "main": [
+        [
+          {
+            "node": "Conversão de Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversão de áudio": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Transcrição de Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Análise de Imagem": {
+      "main": [
+        [
+          {
+            "node": "IF - Imagem com/sem legenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI - Transcrição de Áudio": {
+      "main": [
+        [
+          {
+            "node": "REDIS - Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversão de Imagem": {
+      "main": [
+        [
+          {
+            "node": "OpenAI - Análise de Imagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Imagem com/sem legenda": {
+      "main": [
+        [
+          {
+            "node": "REDIS - Imagem sem legenda",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "REDIS - Imagem com legenda",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REDIS - Imagem com legenda": {
+      "main": [
+        [
+          {
+            "node": "Dados - Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REDIS - Imagem sem legenda": {
+      "main": [
+        [
+          {
+            "node": "Dados - Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REDIS - Áudio": {
+      "main": [
+        [
+          {
+            "node": "Dados - Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REDIS - Texto": {
+      "main": [
+        [
+          {
+            "node": "Dados - Mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dados - Mensagem": {
+      "main": [
+        [
+          {
+            "node": "Intervalo entre Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enfileiramento de mensagens": {
+      "main": [
+        [
+          {
+            "node": "Compara Memoria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem Completa": {
+      "main": [
+        [
+          {
+            "node": "Deletar Mensagens",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar Telefone": {
+      "main": [
+        [
+          {
+            "node": "IF - Telefone existe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Telefone existe": {
+      "main": [
+        [
+          {
+            "node": "Adiciona CHAT supabase",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Atualiza CHAT Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Criar Histórico",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversão Texto para Áudio": {
+      "main": [
+        [
+          {
+            "node": "Código de conversão para envio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cooldown": {
+      "main": [
+        [
+          {
+            "node": "Conversão Texto para Áudio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Foi áudio?": {
+      "main": [
+        [
+          {
+            "node": "Cooldown",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Cooldown Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cooldown Loop": {
+      "main": [
+        [
+          {
+            "node": "Loop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Código de conversão para envio": {
+      "main": [
+        []
+      ]
+    },
+    "Split de Mensagens": {
+      "main": [
+        [
+          {
+            "node": "IF - Foi áudio?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "consultar_horarios": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "agendar_atendimento": {
+      "ai_tool": [
+        [
+          {
+            "node": "Supervisor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guarda LID": {
+      "main": [
+        [
+          {
+            "node": "LID nao resolvido (ignora)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Busca de Cliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolver Telefone": {
+      "main": [
+        [
+          {
+            "node": "Dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler flag video": {
+      "main": [
+        [
+          {
+            "node": "Primeiro contato?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Primeiro contato?": {
+      "main": [
+        [
+          {
+            "node": "Baixar video Drive",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ROTA de Atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar video Drive": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Marcar video enviado": {
+      "main": [
+        [
+          {
+            "node": "ROTA de Atendimento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Marcar video enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0876b1e1-a154-480a-92f1-89f8cf328d81",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b40f473c9af829327bfd206d9371411c18b497b61a02d1be1de3c41fb29b7f87"
+  },
+  "nodeGroups": [],
+  "id": "Z2j08CgH7fpOC4Zc",
+  "tags": []
+}

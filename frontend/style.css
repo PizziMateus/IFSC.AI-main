@@ -1,0 +1,509 @@
+/* 
+   IFSC AI — Página de ajuda
+   Paleta: #00E6A8, preto, branco, cinza bem escuro
+   Fonte: EB Garamond (serifada, elegante e tecnológica)
+   ========================================================= */
+
+/*  Variáveis  */
+:root {
+  --accent: #00E6A8;
+  --accent-soft: rgba(0, 230, 168, 0.12);
+  --accent-line: rgba(0, 230, 168, 0.35);
+
+  --black: #000000;
+  --bg: #121212;
+  --surface: #1a1a1a;
+  --border: #2a2a2a;
+  --white: #ffffff;
+  --muted: #b5b5b5;
+
+  --font-serif: "EB Garamond", Garamond, "Cormorant Garamond", "Times New Roman", serif;
+
+  --radius: 4px;
+  --max-width: 1080px;
+  --nav-height: 72px;
+}
+
+/*  Reset básico  */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--white);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/*  Utilitários  */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.container-narrow {
+  max-width: 760px;
+}
+
+.eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+
+/*  Botões  */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.8rem;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--black);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: transparent;
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--white);
+  border-color: var(--border);
+}
+
+.btn-ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-small {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+}
+
+/*  Navbar  */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: var(--nav-height);
+}
+
+.brand {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+.brand span {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  position: relative;
+  font-size: 1.05rem;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: var(--white);
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Aba atual */
+.nav-links a[aria-current="page"] {
+  color: var(--white);
+}
+
+.nav-links a[aria-current="page"]::after {
+  width: 100%;
+}
+
+/*  Hero  */
+.hero {
+  min-height: 510px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 0;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 7vw, 5.2rem);
+  max-width: 900px;
+  margin-bottom: 1.25rem;
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.lead {
+  max-width: 500px;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/*  Seções  */
+.section {
+  padding: 5rem 0;
+  scroll-margin-top: var(--nav-height);
+}
+
+.section-alt {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+/*  Páginas internas  */
+.page-title {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  margin-bottom: 2rem;
+}
+
+/* Quem nós somos */
+.about .lead {
+  max-width: none;
+  color: var(--white);
+}
+
+.about p:not(.eyebrow):not(.lead) {
+  font-size: 1.15rem;
+  color: var(--muted);
+}
+
+.about p + p {
+  margin-top: 1.25rem;
+}
+
+/*  Passos  */
+.steps,
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.steps {
+  counter-reset: step;
+}
+
+.card {
+  position: relative;
+  padding: 2rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--accent-line);
+  transform: translateY(-3px);
+}
+
+.steps .card::before {
+  counter-increment: step;
+  content: "0" counter(step);
+  display: block;
+  font-size: 2.6rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.card p {
+  color: var(--muted);
+}
+
+/*  FAQ  */
+.faq {
+  border-top: 1px solid var(--border);
+}
+
+.faq details {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq summary {
+  position: relative;
+  padding: 1.4rem 2.5rem 1.4rem 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s ease;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 0.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--accent);
+  transition: transform 0.25s ease;
+}
+
+.faq summary:hover {
+  color: var(--accent);
+}
+
+.faq details[open] summary::after {
+  content: "–";
+}
+
+.faq details p {
+  padding: 0 2.5rem 1.5rem 0;
+  color: var(--muted);
+}
+
+/*  CTA  */
+.cta {
+  padding: 3.5rem 2rem;
+  text-align: center;
+  background:
+    radial-gradient(
+      ellipse 70% 120% at 50% 0%,
+      var(--accent-soft),
+      transparent 70%
+    ),
+    var(--surface);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius);
+}
+
+.cta h2 {
+  margin-bottom: 0.75rem;
+}
+
+.cta p {
+  max-width: 50ch;
+  margin: 0 auto 2rem;
+  color: var(--muted);
+}
+
+/*  Footer  */
+.footer {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 2.5rem;
+}
+
+.brand-footer {
+  margin-bottom: 0.5rem;
+}
+
+.footer-text {
+  max-width: 34ch;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-links a {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.footer-bottom {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+/*  Responsivo  */
+@media (max-width: 860px) {
+  .steps,
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --nav-height: 108px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+
+  .nav-links a {
+    font-size: 0.95rem;
+  }
+
+  .hero {
+    min-height: 480px;
+    padding: 4rem 0 3.5rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.8rem, 12vw, 4rem);
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .cta {
+    padding: 2.5rem 1.25rem;
+  }
+}
+
+/*  Menos animação  */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  * {
+    transition: none !important;
+  }
+}
